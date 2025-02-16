@@ -1,35 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 )
 
-// this is a handler -> handlers execute app logic and write http resp. headers & bodies
-func home(w http.ResponseWriter, r *http.Request) {
-	_ = r
-	w.Write([]byte("hello from snippetbox"))
-}
-
-func snippetView(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(r.PathValue("id"))
-	if err != nil || id < 1 {
-		http.NotFound(w, r)
-		return
-	}
-	msg := fmt.Sprintf("display a specific snippet with ID %d...", id)
-	w.Write([]byte(msg))
-}
-
-func snippetCreate(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("display a form for creating a new snippet..."))
-}
-
 func main() {
-	fmt.Println("hello world!")
-
 	// this is a servemux -> servemuxes store a mapping between URL routing patterns
 	// and the corresponding handler for that routing pattern
 	mux := http.NewServeMux()
@@ -41,7 +17,9 @@ func main() {
 
 	// because /snippet/view doesn't end with a slash, it's an exact match.
 	mux.HandleFunc("GET /snippet/view/{id}", snippetView)
+
 	mux.HandleFunc("GET /snippet/create", snippetCreate)
+	mux.HandleFunc("POST /snippet/create", snippetCreatePost)
 
 	// additional notes about servemux features:
 	// request patterns are automatically sanitized, /foo/bar/..//baz will be
