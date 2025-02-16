@@ -1,0 +1,172 @@
+{
+  "intro": {
+    "title": "Welcome to the Dungeon, Meatbag!",
+    "story": [
+      "You wake up in a cold, metallic room. A neon sign blinks: \"Welcome, Contestant #4287!\". A small drone with a single, unblinking eye hovers nearby, its voice dripping with synthetic sarcasm.",
+      "\"Congratulations! You have been selected for the 47th season of *Murder Dungeon Deluxe*! Try not to die in the first five minutes like the last guy.\"",
+      "A door slides open, revealing two equally terrible choices."
+    ],
+    "options": [
+      {
+        "text": "Step into the corridor filled with ominous clicking sounds.",
+        "arc": "spider_hall"
+      },
+      {
+        "text": "Take the suspiciously friendly-looking path with the bright neon sign that says \"FREE LOOT\".",
+        "arc": "trap_room"
+      }
+    ]
+  },
+  "spider_hall": {
+    "title": "The Clickety-Clack Horror",
+    "story": [
+      "You step into the corridor, and immediately regret it. Thousands of robotic spiders, each the size of a dinner plate, scuttle toward you with unsettling precision.",
+      "A monitor flickers on. \"Ohhh, contestant #4287 is in trouble! Will they fight, or will they run like a coward?\"",
+      "The audience is watching. Choose wisely."
+    ],
+    "options": [
+      {
+        "text": "Charge forward and smash as many as you can!",
+        "arc": "combat_spiders"
+      },
+      {
+        "text": "Run like your life depends on it (because it does).",
+        "arc": "escape_vent"
+      }
+    ]
+  },
+  "boss_fight": {
+    "title": "Final Showdown!",
+    "story": [
+      "You stand before the dungeon's ultimate challenge. The monstrous mechanical overlord looms over you, its glowing red eyes scanning for weaknesses.",
+      "A booming voice echoes through the arena: \"Ladies and gentlemen, the moment you've all been waiting for! Will Contestant #4287 survive, or will they be reduced to a fine red mist?\"",
+      "The audience roars. The fight is on.",
+      "With a battle cry, you charge forward..."
+    ],
+    "options": []
+  },
+  "trap_room": {
+    "title": "Too Good to Be True",
+    "story": [
+      "The room is filled with glowing treasure chests. A holographic clown appears, grinning. \"Go ahead! Pick a prize! No tricks, we promise!\"",
+      "The clown winks. That’s never a good sign.",
+      "The audience chat is filled with skull emojis."
+    ],
+    "options": [
+      {
+        "text": "Open the biggest chest. Bigger is always better, right?",
+        "arc": "mimic_attack"
+      },
+      {
+        "text": "Check for traps before doing anything stupid.",
+        "arc": "secret_door"
+      }
+    ]
+  },
+  "mimic_attack": {
+    "title": "Treasure or Trap?",
+    "story": [
+      "As soon as you touch the chest, it shudders violently. A gaping maw filled with razor-sharp teeth lunges at you!",
+      "The holographic clown bursts into laughter. \"Oh, you poor fool!\"",
+      "You barely manage to dodge the first snap, but the mimic is still coming for you!"
+    ],
+    "options": [
+      {
+        "text": "Try to fight it off with your bare hands!",
+        "arc": "boss_fight"
+      },
+      {
+        "text": "Run for your life and find another way out!",
+        "arc": "escape_vent"
+      }
+    ]
+  },
+  "combat_spiders": {
+    "title": "Legs, So Many Legs!",
+    "story": [
+      "You swing wildly, crushing several mechanical abominations. The crowd cheers! But there are so many…",
+      "A massive spider-bot, its fangs dripping with glowing green acid, drops from the ceiling. \"Final Boss Mode Engaged\", it announces. Oh no."
+    ],
+    "options": [
+      {
+        "text": "Fight the boss! Glory or death!",
+        "arc": "boss_fight"
+      },
+      {
+        "text": "Dive into a maintenance tunnel to escape.",
+        "arc": "escape_vent"
+      }
+    ]
+  },
+  "escape_vent": {
+    "title": "Into the Darkness",
+    "story": [
+      "You scramble into a tight vent, crawling away from certain death. Something skitters behind you. Was that a whisper?",
+      "Your only way forward is down a dark shaft. No turning back now."
+    ],
+    "options": [
+      {
+        "text": "Slide down and hope for the best.",
+        "arc": "mystery_drop"
+      },
+      {
+        "text": "Turn and fight whatever’s behind you.",
+        "arc": "spider_revenge"
+      }
+    ]
+  },
+  "mystery_drop": {
+    "title": "Freefall into the Unknown",
+    "story": [
+      "You take a deep breath and slide down the shaft. The walls blur past as you plummet into darkness.",
+      "You land with a *thud* on something... soft? It shifts beneath you. A low growl fills the air.",
+      "Lights flicker on, revealing a monstrous, tentacled beast. You’ve landed right in its nest!"
+    ],
+    "options": [
+      {
+        "text": "Try to sneak away before it notices you.",
+        "arc": "secret_door"
+      },
+      {
+        "text": "Stand your ground and fight!",
+        "arc": "boss_fight"
+      }
+    ]
+  },
+  "spider_revenge": {
+    "title": "Face Your Fears",
+    "story": [
+      "You spin around, fists clenched. The skittering noise grows louder.",
+      "A massive spider-bot lunges from the darkness, its mandibles snapping inches from your face!",
+      "The crowd erupts in cheers as the ultimate battle begins."
+    ],
+    "options": [
+      {
+        "text": "Go for the weak points and destroy it!",
+        "arc": "boss_fight"
+      },
+      {
+        "text": "Use the vent’s tight walls to your advantage and escape!",
+        "arc": "mystery_drop"
+      }
+    ]
+  },
+  "secret_door": {
+    "title": "Hidden Passage",
+    "story": [
+      "You carefully examine the floor and walls. Your patience pays off when you find a loose stone revealing a hidden lever.",
+      "With a soft *click*, a portion of the wall swings open, revealing a dimly lit passageway leading deeper into the dungeon.",
+      "The clown groans in disappointment. \"Boring! But fine, let's see where this leads...\""
+    ],
+    "options": [
+      {
+        "text": "Step into the mysterious passage.",
+        "arc": "mystery_drop"
+      },
+      {
+        "text": "Head back and take your chances with the chests.",
+        "arc": "mimic_attack"
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+    "intro": {
+        "title": "The Beginning",
+        "story": [
+            "Once upon a time..."
+        ],
+        "options": [
+            {
+                "text": "Go to the next chapter",
+                "arc": "next_chapter"
+            }
+        ]
+    },
+    "next_chapter": {
+        "title": "The Next Chapter",
+        "story": [
+            "The story continues..."
+        ],
+        "options": []
+    }
+}

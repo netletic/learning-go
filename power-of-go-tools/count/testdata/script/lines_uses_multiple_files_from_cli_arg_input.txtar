@@ -1,0 +1,10 @@
+exec lines input1.txt input2.txt
+stdout '5\n$'
+
+-- input1.txt --
+this input
+contains
+three lines
+-- input2.txt --
+this input contains
+two lines

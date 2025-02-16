@@ -1,0 +1,10 @@
+exec words input1.txt input2.txt
+stdout '11\n$'
+
+-- input1.txt --
+this input
+contains
+five words
+-- input2.txt --
+this input contains
+another 6 words

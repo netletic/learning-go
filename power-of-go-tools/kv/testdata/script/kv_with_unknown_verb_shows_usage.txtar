@@ -1,0 +1,2 @@
+! exec kv bogus
+stderr 'Usage: kv'
