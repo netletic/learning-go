@@ -1,10 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"flag"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type application struct {
@@ -13,6 +17,7 @@ type application struct {
 
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
+	dsn := flag.String("dsn", "", "MySQL data source name")
 	flag.Parse()
 
 	// logging
@@ -21,6 +26,29 @@ func main() {
 	}
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, slogHandlerOpts))
 
+	// set dsn based on env vars if dsn not set via CLI flag
+	if *dsn == "" {
+		dbUser := os.Getenv("SNIPPETBOX_DB_USER")
+		if dbUser == "" {
+			logger.Error("SNIPPETBOX_DB_USER environment variable is not set")
+			os.Exit(1)
+		}
+		dbPassword := os.Getenv("SNIPPETBOX_DB_PASSWORD")
+		if dbPassword == "" {
+			logger.Error("SNIPPETBOX_DB_PASSWORD environment variable is not set")
+			os.Exit(1)
+		}
+		*dsn = fmt.Sprintf("%s:%s@/snippetbox?parseTime=true", dbUser, dbPassword)
+	}
+
+	// db
+	db, err := openDB(*dsn)
+	if err != nil {
+		logger.Error(err.Error())
+		os.Exit(1)
+	}
+	defer db.Close()
+
 	app := &application{
 		logger: logger,
 	}
@@ -28,7 +56,22 @@ func main() {
 	// mux
 	mux := app.Routes()
 	logger.Info("starting server", slog.String("addr", *addr))
-	err := http.ListenAndServe(*addr, mux)
+	err = http.ListenAndServe(*addr, mux)
 	logger.Error(err.Error())
 	os.Exit(1)
+}
+
+func openDB(dsn string) (*sql.DB, error) {
+	db, err := sql.Open("mysql", dsn)
+	if err != nil {
+		return nil, err
+	}
+
+	err = db.Ping()
+	if err != nil {
+		db.Close()
+		return nil, err
+	}
+
+	return db, nil
 }
