@@ -24,20 +24,20 @@ func (app *application) serverError(w http.ResponseWriter, r *http.Request, err 
 	http.Error(w, http.StatusText(status), status)
 }
 
-func (app *application) clientError(w http.ResponseWriter, r *http.Request, status int) {
-	var (
-		method = r.Method
-		host   = r.Host
-		uri    = r.URL.RequestURI()
-	)
+// func (app *application) clientError(w http.ResponseWriter, r *http.Request, status int) {
+// 	var (
+// 		method = r.Method
+// 		host   = r.Host
+// 		uri    = r.URL.RequestURI()
+// 	)
 
-	app.logger.Error(
-		http.StatusText(status),
-		slog.String("method", method),
-		slog.String("host", host),
-		slog.String("uri", uri),
-		slog.Int("status", status),
-	)
+// 	app.logger.Error(
+// 		http.StatusText(status),
+// 		slog.String("method", method),
+// 		slog.String("host", host),
+// 		slog.String("uri", uri),
+// 		slog.Int("status", status),
+// 	)
 
-	http.Error(w, http.StatusText(status), status)
-}
+// 	http.Error(w, http.StatusText(status), status)
+// }
