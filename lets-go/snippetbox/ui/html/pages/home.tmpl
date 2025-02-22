@@ -9,9 +9,7 @@
     <th>Created</th>
     <th>ID</th>
   </tr>
-  {{
-    range.Snippets
-  }}
+  {{ range.Snippets }}
   <tr>
     <td>
       <a href="/snippet/view/{{.ID}}">{{.Title}}</a>
@@ -19,9 +17,7 @@
     <td>{{.Created | humanDate}}</td>
     <td>#{{.ID}}</td>
   </tr>
-  {{
-    end
-  }}
+  {{ end }}
 </table>
 {{else}}
 <p>There's nothing to see here... yet!</p>
