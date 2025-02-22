@@ -29,8 +29,8 @@ func (app *application) serverError(w http.ResponseWriter, r *http.Request, err 
 	app.logger.Error(
 		err.Error(),
 		slog.String("ip", ip),
-		slog.String("scheme", scheme),
 		slog.String("method", method),
+		slog.String("scheme", scheme),
 		slog.String("host", host),
 		slog.String("uri", uri),
 		slog.String("proto", proto),
@@ -64,8 +64,8 @@ func (app *application) clientError(w http.ResponseWriter, r *http.Request, stat
 	app.logger.Error(
 		http.StatusText(status),
 		slog.String("ip", ip),
-		slog.String("scheme", scheme),
 		slog.String("method", method),
+		slog.String("scheme", scheme),
 		slog.String("host", host),
 		slog.String("uri", uri),
 		slog.String("proto", proto),
