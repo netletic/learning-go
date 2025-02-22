@@ -13,5 +13,5 @@ func (app *application) Routes() http.Handler {
 	mux.HandleFunc("GET /snippet/create", app.snippetCreate)
 	mux.HandleFunc("POST /snippet/create", app.snippetCreatePost)
 
-	return app.logRequest(commonResponseHeaders(mux))
+	return app.injectTracing(app.logHTTPExchange(app.recoverPanic(injectSecurityHeaders(mux))))
 }
