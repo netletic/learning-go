@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
+	"unicode/utf8"
 
 	"snippetbox.netletic.com/internal/models"
 )
@@ -55,10 +57,29 @@ func (app *application) snippetCreatePost(w http.ResponseWriter, r *http.Request
 
 	title := r.PostForm.Get("title")
 	content := r.PostForm.Get("content")
-	expires, err := strconv.Atoi(r.PostForm.Get("expires"))
 
+	expires, err := strconv.Atoi(r.PostForm.Get("expires"))
 	if err != nil {
 		app.clientError(w, r, http.StatusBadRequest)
+		return
+	}
+
+	fieldErrors := make(map[string]string)
+	if strings.TrimSpace(title) == "" {
+		fieldErrors["title"] = "This field cannot be blank"
+	}
+	if utf8.RuneCountInString(title) > 100 {
+		fieldErrors["title"] = "This field cannot be more than 100 characters long"
+	}
+	if strings.TrimSpace(content) == "" {
+		fieldErrors["content"] = "This field cannot be blank"
+	}
+	if expires != 1 && expires != 7 && expires != 365 {
+		fieldErrors["expires"] = "This field must equal 1, 7, or 365"
+	}
+
+	if len(fieldErrors) > 0 {
+		fmt.Fprint(w, fieldErrors)
 		return
 	}
 
