@@ -9,12 +9,12 @@ import (
 func (app *application) Routes() http.Handler {
 	mux := http.NewServeMux()
 
-	// static files
+	// static resp routes
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
 
-	// unprotected routes
-	dynamic := alice.New(app.sessionManager.LoadAndSave)
+	// dynamic resp routes && unprotected routes
+	dynamic := alice.New(app.sessionManager.LoadAndSave, noSurf, app.authenticate)
 	mux.Handle("GET /{$}", dynamic.ThenFunc(app.home))
 	mux.Handle("GET /snippet/view/{id}", dynamic.ThenFunc(app.snippetView))
 	mux.Handle("GET /user/signup", dynamic.ThenFunc(app.userSignup))
@@ -22,12 +22,13 @@ func (app *application) Routes() http.Handler {
 	mux.Handle("GET /user/login", dynamic.ThenFunc(app.userLogin))
 	mux.Handle("POST /user/login", dynamic.ThenFunc(app.userLoginPost))
 
-	// protected routes
+	// dynamic resp routes && protected routes
 	protected := dynamic.Append(app.requireAuthentication)
 	mux.Handle("GET /snippet/create", protected.ThenFunc(app.snippetCreate))
 	mux.Handle("POST /snippet/create", protected.ThenFunc(app.snippetCreatePost))
 	mux.Handle("POST /user/logout", protected.ThenFunc(app.userLogoutPost))
 
+	// standard middleware for all requests
 	standard := alice.New(
 		app.injectTracing,
 		app.logHTTPExchange,
