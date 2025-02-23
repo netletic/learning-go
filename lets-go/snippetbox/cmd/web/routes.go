@@ -4,16 +4,16 @@ import (
 	"net/http"
 
 	"github.com/justinas/alice"
+	"snippetbox.netletic.com/ui"
 )
 
 func (app *application) Routes() http.Handler {
 	mux := http.NewServeMux()
 
-	// static resp routes
-	fileServer := http.FileServer(http.Dir("./ui/static/"))
-	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
+	// static responses
+	mux.Handle("GET /static/", http.FileServerFS(ui.Files))
 
-	// dynamic resp routes && unprotected routes
+	// dynamic responses | unauthenticated paths
 	dynamic := alice.New(app.sessionManager.LoadAndSave, noSurf, app.authenticate)
 	mux.Handle("GET /{$}", dynamic.ThenFunc(app.home))
 	mux.Handle("GET /snippet/view/{id}", dynamic.ThenFunc(app.snippetView))
@@ -22,7 +22,7 @@ func (app *application) Routes() http.Handler {
 	mux.Handle("GET /user/login", dynamic.ThenFunc(app.userLogin))
 	mux.Handle("POST /user/login", dynamic.ThenFunc(app.userLoginPost))
 
-	// dynamic resp routes && protected routes
+	// dynamic responses | authenticated paths
 	protected := dynamic.Append(app.requireAuthentication)
 	mux.Handle("GET /snippet/create", protected.ThenFunc(app.snippetCreate))
 	mux.Handle("POST /snippet/create", protected.ThenFunc(app.snippetCreatePost))
