@@ -40,7 +40,6 @@ type responseWriter struct {
 
 func (rw *responseWriter) WriteHeader(code int) {
 	rw.status = code
-	rw.ResponseWriter.Header().Set("X-Trace-ID", rw.traceID)
 	rw.ResponseWriter.WriteHeader(code)
 }
 
@@ -68,11 +67,13 @@ func (app *application) logHTTPExchange(next http.Handler) http.Handler {
 		// inject traceID into the response header
 		rw := &responseWriter{ResponseWriter: w, traceID: traceID, status: 0}
 		next.ServeHTTP(rw, r)
+		end := time.Now()
+		durationMs := end.Sub(start).Milliseconds()
 		app.logger.Info(
 			"http_exchange",
 			slog.Time("start", start),
-			slog.Time("end", time.Now()),
-			slog.Int64("durationMs", time.Since(start).Milliseconds()),
+			slog.Time("end", end),
+			slog.Int64("durationMs", durationMs),
 			slog.String("ip", ip),
 			slog.String("method", method),
 			slog.String("scheme", scheme),
@@ -87,8 +88,14 @@ func (app *application) logHTTPExchange(next http.Handler) http.Handler {
 
 func (app *application) injectTracing(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.WithValue(r.Context(), traceIDContextKey, generateTraceID())
+		traceID := generateTraceID()
+
+		// inject into request context
+		ctx := context.WithValue(r.Context(), traceIDContextKey, traceID)
 		r = r.WithContext(ctx)
+		r.Header.Set("X-Trace-Id", traceID)
+		w.Header().Set("X-Trace-Id", traceID)
+
 		next.ServeHTTP(w, r)
 	})
 }
