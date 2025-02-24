@@ -10,7 +10,7 @@ import (
 	"snippetbox.netletic.com/internal/assert"
 )
 
-func TestPing(t *testing.T) {
+func TestPing_HandlerReturnsStatus200AndOK(t *testing.T) {
 	t.Parallel()
 
 	rr := httptest.NewRecorder()
@@ -32,5 +32,16 @@ func TestPing(t *testing.T) {
 		t.Fatal(err)
 	}
 	body = bytes.TrimSpace(body)
+	assert.Equal(t, "OK", string(body))
+}
+
+func TestPing_EndToEndReturnsStatus200AndOK(t *testing.T) {
+	t.Parallel()
+	app := newTestApplication(t)
+	ts := newTestServer(t, app.Routes())
+	defer ts.Close()
+
+	code, _, body := ts.get(t, "/ping")
+	assert.Equal(t, http.StatusOK, code)
 	assert.Equal(t, "OK", string(body))
 }
