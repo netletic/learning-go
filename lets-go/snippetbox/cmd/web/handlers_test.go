@@ -40,7 +40,6 @@ func TestPing_EndToEndReturnsStatus200AndOK(t *testing.T) {
 	app := newTestApplication(t)
 	ts := newTestServer(t, app.Routes())
 	defer ts.Close()
-
 	code, _, body := ts.get(t, "/ping")
 	assert.Equal(t, http.StatusOK, code)
 	assert.Equal(t, "OK", string(body))
