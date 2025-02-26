@@ -93,9 +93,7 @@ func TestSnippetView(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gotCode, _, gotBody := ts.get(t, tt.urlPath)
-
 			assert.Equal(t, tt.wantCode, gotCode)
-
 			if tt.wantBody != "" {
 				assert.StringContains(t, tt.wantBody, gotBody)
 			}
