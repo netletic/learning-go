@@ -20,3 +20,11 @@ func StringContains(t *testing.T, want, got string) {
 		t.Errorf("want substring: %q; got: %q", want, got)
 	}
 }
+
+func NilError(t *testing.T, actual error) {
+	t.Helper()
+
+	if actual != nil {
+		t.Errorf("got: %v; expected: nil", actual)
+	}
+}
