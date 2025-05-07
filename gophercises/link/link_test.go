@@ -16,7 +16,7 @@ func TestParse(t *testing.T) {
 	}{
 		"empty string": {
 			input: ``,
-			want:  []link.Link{},
+			want:  nil,
 		},
 		"single unnested a href": {
 			input: `<a href="https://golang.org">Go</a>`,
@@ -58,7 +58,7 @@ func TestParse(t *testing.T) {
 `,
 			want: []link.Link{
 				{Href: "https://www.twitter.com/joncalhoun", Text: "Check me out on twitter"},
-				{Href: "https://github.com/gophercises", Text: "Gophercises is on "},
+				{Href: "https://github.com/gophercises", Text: "Gophercises is on Github!"},
 			},
 		},
 		"ex3": {
